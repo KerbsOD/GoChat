@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/KerbsOD/LordsMessage/pkg/websocket"
+	"github.com/KerbsOD/GoChat/pkg/websocket"
 )
 
 func setupRoutes() {
@@ -33,7 +33,7 @@ func serveWs(pool *websocket.Pool, w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	fmt.Println("Chat App v0.01")
+	fmt.Println("===== GoChat v1.0 =====")
 	setupRoutes()
 	http.ListenAndServe(":8080", nil)
 }
