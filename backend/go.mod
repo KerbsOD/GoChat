@@ -1,4 +1,4 @@
-module github.com/KerbsOD/LordsMessage
+module github.com/KerbsOD/GoChat
 
 go 1.21.5
 
