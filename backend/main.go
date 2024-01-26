@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"net/http"
-
 	"github.com/KerbsOD/GoChat/pkg/websocket"
 )
 
@@ -22,7 +21,7 @@ func serveWs(pool *websocket.Pool, w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Fprintf(w, "%+V\n", err)
 	}
-
+	
 	client := &websocket.Client{
 		Conn: conn,
 		Pool: pool,
