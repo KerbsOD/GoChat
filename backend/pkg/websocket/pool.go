@@ -22,30 +22,40 @@ func (pool *Pool) Start() {
 	for {
 		select {
 		case client := <-pool.Register:
-			pool.Clients[client] = true
-			fmt.Println("Size of Connection Pool: ", len(pool.Clients))
-			for client, _ := range pool.Clients {
-				fmt.Println(client)
-				joinMessage := fmt.Sprintf("%s Joined...", client.ID)
-				client.Conn.WriteJSON(Message{Type: 1, Sender: client.ID, Body: joinMessage})
-			}
-			break
-		case client := <-pool.Unregister:
-			delete(pool.Clients, client)
-			fmt.Println("Size of Connection Pool: ", len(pool.Clients))
-			for client, _ := range pool.Clients {
-				leaveMessage := fmt.Sprintf("%s Disconnected...", client.ID)
-				client.Conn.WriteJSON(Message{Type: 1, Sender: client.ID, Body: leaveMessage})
-			}
+			registerClient(client, pool)
 			break
 		case message := <-pool.Broadcast:
-			fmt.Println("Sending message to all clients in Pool")
-			for client, _ := range pool.Clients {
-				if err := client.Conn.WriteJSON(message); err != nil {
-					fmt.Println(err)
-					return
-				}
-			}
+			broadcastMessage(message, pool)
+			break
+		case client := <-pool.Unregister:
+			unregisterClient(client, pool)
+			break
 		}
+	}
+}
+
+func registerClient(client *Client, pool *Pool) {
+	pool.Clients[client] = true
+	for client := range pool.Clients {
+		joinMessage := fmt.Sprintf("%s Joined...", client.ID)
+		client.Conn.WriteJSON(Message{Type: 1, Sender: client.ID, Body: joinMessage})
+	}
+}
+
+func broadcastMessage(message Message, pool *Pool) {
+	for client := range pool.Clients {
+		err := client.Conn.WriteJSON(message)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+	}
+}
+
+func unregisterClient(client *Client, pool *Pool) {
+	delete(pool.Clients, client)
+	for client := range pool.Clients {
+		leaveMessage := fmt.Sprintf("%s Disconnected...", client.ID)
+		client.Conn.WriteJSON(Message{Type: 1, Sender: client.ID, Body: leaveMessage})
 	}
 }
