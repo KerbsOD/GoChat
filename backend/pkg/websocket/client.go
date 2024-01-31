@@ -7,7 +7,6 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-// Each client has it's own websocket connection and a reference to the shared pool.
 type Client struct {
 	ID   string
 	Conn *websocket.Conn
@@ -20,8 +19,6 @@ type Message struct {
 	Body   string `json:"body"`
 }
 
-// When the websocket connection receives an array of bytes it broadcasts it to the rest of clients.
-// c.Conn.ReadMessage() it's locked until it recieves data.
 func (c *Client) Read() {
 	defer func() {
 		c.Pool.Unregister <- c
