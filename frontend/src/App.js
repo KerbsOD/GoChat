@@ -19,7 +19,7 @@ export default function App() {
 
         connect(handleMessage);
 
-    }, []); 
+    }); 
 
     const send = (event) => {
         if (event.keyCode === 13) { // enter
