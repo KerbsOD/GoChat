@@ -10,7 +10,8 @@ import (
 func setupRoutes() {
 	pool := websocket.NewPool()
 	go pool.Start()
-
+  
+  // Hace algo
 	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
 		serveWs(pool, w, r)
 	})
