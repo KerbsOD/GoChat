@@ -5,7 +5,7 @@ export default function ChatHistory({chatHistory}) {
     console.log(chatHistory)
     const messages = chatHistory.map(msg => <Message message={msg.data} />);
     return (
-        <div className='chatHistory'>
+        <div className='ChatHistory'>
             {messages}
         </div>
     );
