@@ -37,7 +37,7 @@ func (pool *Pool) Start() {
 func registerClient(client *Client, pool *Pool) {
 	pool.Clients[client] = true
 	for client := range pool.Clients {
-		joinMessage := fmt.Sprintf("%s Joined...", client.ID)
+		joinMessage := fmt.Sprintf("%s Connected...", client.ID)
 		client.Conn.WriteJSON(Message{Type: 1, Sender: client.ID, Body: joinMessage})
 	}
 }
