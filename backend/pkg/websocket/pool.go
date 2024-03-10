@@ -23,13 +23,10 @@ func (pool *Pool) Start() {
 		select {
 		case client := <-pool.Register:
 			registerClient(client, pool)
-			break
 		case message := <-pool.Broadcast:
 			broadcastMessage(message, pool)
-			break
 		case client := <-pool.Unregister:
 			unregisterClient(client, pool)
-			break
 		}
 	}
 }
