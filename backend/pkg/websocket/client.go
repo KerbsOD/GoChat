@@ -1,7 +1,6 @@
 package websocket
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/gorilla/websocket"
@@ -33,6 +32,5 @@ func (c *Client) Read() {
 		}
 		message := Message{Type: messageType, Sender: string(c.ID), Body: string(p)}
 		c.Pool.Broadcast <- message
-		fmt.Printf("Message Received: %+v\n", message)
 	}
 }
