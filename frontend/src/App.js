@@ -12,15 +12,14 @@ export default function App() {
         document.title = "GoChat";
 
         const handleMessage = (msg) => {
-            console.log("New Message")
             setChatHistory(prevChatHistory => [...prevChatHistory, msg]);
-            console.log(chatHistory);
         };
 
         connect(handleMessage);
     }); 
 
     const send = (event) => {
+        // Si la tecla es enter entonces usa la funcion sendMsg para enviar el valor
         if (event.keyCode === 13) { // enter
             sendMsg(event.target.value);
             event.target.value = "";

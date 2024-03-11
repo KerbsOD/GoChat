@@ -48,7 +48,6 @@ func registerClient(client *Client, pool *Pool) {
 }
 
 func broadcastMessage(message Message, pool *Pool) {
-
 	log.Printf("Message Received: %+v\n", message)
 
 	for client := range pool.Clients {
