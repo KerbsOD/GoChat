@@ -23,6 +23,7 @@ func initializePool() *websocket.Pool {
 	return pool
 }
 
+// Cada vez que alguien accede al server mediante "8080/ws" se llama a serveWebSocket
 func setupRoutes(pool *websocket.Pool) {
 	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
 		serveWebSocket(pool, w, r)
@@ -41,6 +42,6 @@ func serveWebSocket(pool *websocket.Pool, w http.ResponseWriter, r *http.Request
 		Pool: pool,
 	}
 
-	pool.Register <- client
+	client.Register(pool)
 	client.Read()
 }

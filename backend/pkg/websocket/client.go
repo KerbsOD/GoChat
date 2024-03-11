@@ -18,6 +18,10 @@ type Message struct {
 	Body   string `json:"body"`
 }
 
+func (c *Client) Register(pool *Pool) {
+	pool.Register <- c
+}
+
 func (c *Client) Read() {
 	defer func() {
 		c.Pool.Unregister <- c
