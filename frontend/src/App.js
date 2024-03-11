@@ -1,37 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import Header from './components/Header/Header';
-import ChatHistory from "./components/ChatHistory/ChatHistory";
-import ChatInput from "./components/ChatInput";
-import "./App.css";
-import { connect, sendMsg } from "./api";
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import Home from './Home.js'
+import Chat from './Chat.js'
+import './App.css'
+import { useEffect, useState } from 'react'
 
-export default function App() {
-    const [chatHistory, setChatHistory] = useState([]);
-
-    useEffect(() => {
-        document.title = "GoChat";
-
-        const handleMessage = (msg) => {
-            setChatHistory(prevChatHistory => [...prevChatHistory, msg]);
-        };
-
-        connect(handleMessage);
-    }); 
-
-    const send = (event) => {
-        // Si la tecla es enter entonces usa la funcion sendMsg para enviar el valor
-        if (event.keyCode === 13) { // enter
-            sendMsg(event.target.value);
-            event.target.value = "";
-        }
-    };
-
+function App() {
+    const [loggedIn, setLoggedIn] = useState(false)
+    const [username, setUsername] = useState('Bananero')
+    
     return (
-        <div className="App">
-            <Header />
-            <ChatHistory chatHistory={chatHistory} />
-            <ChatInput send={send} />
-        </div>
-    );
-};
+    <div className="App">
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Home username={username} setUsername={setUsername} />} />
+                <Route path="/chat" element={<Chat username={username} />} />
+            </Routes>
+        </BrowserRouter>
+    </div>
+    )
+}
 
+export default App
