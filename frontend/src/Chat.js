@@ -14,7 +14,7 @@ export default function Chat({username}) {
             setChatHistory(prevChatHistory => [...prevChatHistory, msg]);
         };
 
-        connect(handleMessage, {username});
+        connect(handleMessage);
     }); 
 
     const send = (event) => {
