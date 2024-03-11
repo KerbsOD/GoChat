@@ -33,8 +33,11 @@ func (pool *Pool) Start() {
 
 func registerClient(client *Client, pool *Pool) {
 	pool.Clients[client] = true
+
+	joinMessage := fmt.Sprintf("%s connected...", client.ID)
+	fmt.Println(joinMessage)
+
 	for client := range pool.Clients {
-		joinMessage := fmt.Sprintf("%s Connected...", client.ID)
 		client.Conn.WriteJSON(Message{Type: 1, Sender: client.ID, Body: joinMessage})
 	}
 }
@@ -51,8 +54,11 @@ func broadcastMessage(message Message, pool *Pool) {
 
 func unregisterClient(client *Client, pool *Pool) {
 	delete(pool.Clients, client)
+
+	leaveMessage := fmt.Sprintf("%s disconnected...", client.ID)
+	fmt.Println(leaveMessage)
+
 	for client := range pool.Clients {
-		leaveMessage := fmt.Sprintf("%s Disconnected...", client.ID)
 		client.Conn.WriteJSON(Message{Type: 1, Sender: client.ID, Body: leaveMessage})
 	}
 }
