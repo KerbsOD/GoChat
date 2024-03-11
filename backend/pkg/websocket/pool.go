@@ -1,6 +1,8 @@
 package websocket
 
-import "fmt"
+import (
+	"log"
+)
 
 type Pool struct {
 	Register   chan *Client
@@ -34,19 +36,25 @@ func (pool *Pool) Start() {
 func registerClient(client *Client, pool *Pool) {
 	pool.Clients[client] = true
 
-	joinMessage := fmt.Sprintf("%s connected...", client.ID)
-	fmt.Println(joinMessage)
+	log.Printf("User Connected: %+v\n", client.ID)
 
 	for client := range pool.Clients {
-		client.Conn.WriteJSON(Message{Type: 1, Sender: client.ID, Body: joinMessage})
+		err := client.Conn.WriteJSON(Message{Type: 1, Sender: client.ID, Body: ""})
+		if err != nil {
+			log.Println(err)
+			return
+		}
 	}
 }
 
 func broadcastMessage(message Message, pool *Pool) {
+
+	log.Printf("Message Received: %+v\n", message)
+
 	for client := range pool.Clients {
 		err := client.Conn.WriteJSON(message)
 		if err != nil {
-			fmt.Println(err)
+			log.Println(err)
 			return
 		}
 	}
@@ -55,10 +63,13 @@ func broadcastMessage(message Message, pool *Pool) {
 func unregisterClient(client *Client, pool *Pool) {
 	delete(pool.Clients, client)
 
-	leaveMessage := fmt.Sprintf("%s disconnected...", client.ID)
-	fmt.Println(leaveMessage)
+	log.Printf("User Disconnected: %+v\n", client.ID)
 
 	for client := range pool.Clients {
-		client.Conn.WriteJSON(Message{Type: 1, Sender: client.ID, Body: leaveMessage})
+		err := client.Conn.WriteJSON(Message{Type: 1, Sender: client.ID, Body: ""})
+		if err != nil {
+			log.Println(err)
+			return
+		}
 	}
 }
