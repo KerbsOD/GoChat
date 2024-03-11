@@ -1,18 +1,23 @@
-import React, { Component } from "react";
 import "./Message.scss";
 
-class Message extends Component {
-  constructor(props) {
-    super(props);
-    let temp = JSON.parse(this.props.message);
-    this.state = {
-      message: temp
-    };
-  }
+export default function Message ({message}) {
+    let temp = JSON.parse(message);
+    const {statusmessage, sender, body,} = temp
 
-  render() {
-    return <div className="Message">{this.state.message.body}</div>;
-  }
+    let postMessage = (<div><strong>{sender}</strong>: {body}</div>)
+
+    if (statusmessage === 0) {
+        postMessage = (<div><strong>{sender} has joined the chat </strong></div>)
+    }
+
+    if (statusmessage === 2) {
+        postMessage = (<div><strong>{sender} has left the chat </strong></div>)
+    }
+
+    return (
+        <div className="Message">
+            {postMessage}
+        </div>
+    )
 }
 
-export default Message;

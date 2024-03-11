@@ -1,14 +1,11 @@
-import React, { Component } from "react";
 import "./ChatInput.scss";
 
-class ChatInput extends Component {
-    render() {
-        return (
-            <div className="ChatInput">
-                <input onKeyDown={this.props.send} />
-            </div>
-        );
-    }
+export default function ChatInput({ send }) {
+    return (
+        <div className="ChatInput">
+            {/*Si apreto alguna tecla, usa la funcion send para handlearlo*/}
+            <input onKeyDown={send}/>
+        </div>
+    )
 }
-
-export default ChatInput;
+    

@@ -1,47 +1,23 @@
-// App.js
-import React, { Component } from "react";
-import Header from './components/Header/Header';
-import ChatHistory from "./components/ChatHistory/ChatHistory";
-import ChatInput from "./components/ChatInput";
-import "./App.css";
-import { connect, sendMsg } from "./api";
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import Home from './Home.js'
+import Chat from './Chat.js'
+import './App.css'
+import { useEffect, useState } from 'react'
 
-class App extends Component {
+function App() {
+    const [loggedIn, setLoggedIn] = useState(false)
+    const [username, setUsername] = useState('')
     
-    constructor(props) {
-        super(props);
-        this.state = {
-            chatHistory: []
-        }
-    }
-
-    componentDidMount() {
-        document.title = "GoChat";  
-        connect((msg) => {
-            console.log("New Message")
-            this.setState(prevState => ({
-                chatHistory: [...this.state.chatHistory, msg]
-            }))
-            console.log(this.state);
-        });
-    }
-
-    send(event) {
-        if(event.keyCode === 13) {
-            sendMsg(event.target.value);
-            event.target.value = "";
-        }
-    }
-
-    render() {
-        return (
-        <div className="App">
-            <Header />
-            <ChatHistory chatHistory={this.state.chatHistory} />
-            <ChatInput send={this.send} />
-        </div>
-        );
-    }
+    return (
+    <div className="App">
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Home username={username} setUsername={setUsername} />} />
+                <Route path="/chat" element={<Chat username={username} />} />
+            </Routes>
+        </BrowserRouter>
+    </div>
+    )
 }
 
-export default App;
+export default App
