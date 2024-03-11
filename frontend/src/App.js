@@ -18,7 +18,6 @@ export default function App() {
         };
 
         connect(handleMessage);
-
     }); 
 
     const send = (event) => {

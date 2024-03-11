@@ -11,7 +11,10 @@ func main() {
 	fmt.Println("===== GoChat v1.1 =====")
 	pool := initializePool()
 	setupRoutes(pool)
-	http.ListenAndServe(":8080", nil)
+	err := http.ListenAndServe(":8080", nil)
+	if err != nil {
+		fmt.Print("Server closed\n")
+	}
 }
 
 func initializePool() *websocket.Pool {
