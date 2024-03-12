@@ -15,7 +15,7 @@ export default function Chat({username}) {
         };
 
         connect(callback, username);
-    }); 
+    }, [username]); 
 
     const send = (event) => {
         // Si la tecla es enter entonces usa la funcion sendMsg para enviar el valor

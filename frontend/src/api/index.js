@@ -3,7 +3,7 @@ var socket = new WebSocket("ws://localhost:8080/ws");
 
 // Funcion para conectarse con el backend
 let connect = (callback, username) => {
-  console.log("Attempting Connection...");
+    console.log("Attempting Connection...");
 
     socket.onopen = () => {
         console.log("Successfully Connected");
