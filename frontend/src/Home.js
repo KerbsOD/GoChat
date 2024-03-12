@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
 export default function Home({username, setUsername}) {
@@ -20,7 +20,6 @@ export default function Home({username, setUsername}) {
 
             <div className={'inputContainer'}>
                 <input
-                    value={username}
                     placeholder="Enter username"
                     onChange={(ev) => setUsername(ev.target.value)}
                     className={'inputBox'}

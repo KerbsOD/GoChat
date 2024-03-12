@@ -10,11 +10,11 @@ export default function Chat({username}) {
     useEffect(() => {
         document.title = "GoChat";
 
-        const handleMessage = (msg) => {
+        const connectionHandler = (msg) => {
             setChatHistory(prevChatHistory => [...prevChatHistory, msg]);
         };
 
-        connect(handleMessage);
+        connect(connectionHandler, username);
     }); 
 
     const send = (event) => {
