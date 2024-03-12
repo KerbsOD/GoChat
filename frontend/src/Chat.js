@@ -9,13 +9,14 @@ export default function Chat({username}) {
 
     useEffect(() => {
         document.title = "GoChat";
+        var socket = new WebSocket("ws://localhost:8080/ws");
 
         const callback = (msg) => {
             setChatHistory(prevChatHistory => [...prevChatHistory, msg]);
         };
 
         connect(callback, username);
-    }, [username]); 
+    }, []); 
 
     const send = (event) => {
         // Si la tecla es enter entonces usa la funcion sendMsg para enviar el valor

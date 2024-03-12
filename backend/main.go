@@ -37,7 +37,7 @@ func serveWebSocket(pool *websocket.Pool, w http.ResponseWriter, r *http.Request
 	}
 
 	client := &websocket.Client{
-		ID:   "Norber",
+		ID:   "Default",
 		Conn: conn,
 		Pool: pool,
 	}
