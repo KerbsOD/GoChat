@@ -1,7 +1,6 @@
 package websocket
 
 import (
-	"encoding/json"
 	"log"
 
 	"github.com/gorilla/websocket"
@@ -21,8 +20,8 @@ type Message struct {
 }
 
 type FrontMessage struct {
-	Username string `json:"username"`
-	Content  string `json:"content"`
+    Username string `json:"username"`
+    Content string `json:"content"`
 }
 
 func (c *Client) Register(pool *Pool) {
@@ -41,17 +40,10 @@ func (c *Client) Read() {
 			log.Println(err)
 			return
 		}
+            
+        dataRecieved := 
 
-		var dataReciever FrontMessage
-		if err := json.Unmarshal(p, &dataReciever); err != nil {
-			log.Println("Error decoding JSON:", err)
-			continue
-		}
-
-		username := dataReciever.Username
-		content := dataReciever.Content
-
-		message := Message{Type: messageType, StatusMessage: 1, Sender: username, Body: content}
+		message := Message{Type: messageType, StatusMessage: 1, Sender: string(c.ID), Body: string(p)}
 		c.Pool.Broadcast <- message
 	}
 }

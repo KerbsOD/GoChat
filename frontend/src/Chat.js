@@ -20,7 +20,15 @@ export default function Chat({username}) {
     const send = (event) => {
         // Si la tecla es enter entonces usa la funcion sendMsg para enviar el valor
         if (event.keyCode === 13) { // enter
-            sendMsg(event.target.value);
+            const message = {
+                content: event.target.value,
+                username: username,
+            };
+            
+            const messageString = JSON.stringify(message)
+            
+            sendMsg(messageString);
+            
             event.target.value = "";
         }
     };
