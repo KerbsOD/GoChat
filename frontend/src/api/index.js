@@ -2,17 +2,17 @@
 var socket = new WebSocket("ws://localhost:8080/ws");
 
 // Funcion para conectarse con el backend
-let connect = cb => {
+let connect = (callback, username) => {
   console.log("Attempting Connection...");
 
-  socket.onopen = () => {
-    console.log("Successfully Connected");
-  };
+    socket.onopen = () => {
+        console.log("Successfully Connected");
+    };
 
   // Cada vez que el back mande un mensaje esta funcion lo recibe.
   socket.onmessage = msg => {
     console.log(msg);
-    cb(msg)
+    callback(msg)
   };
 
   socket.onclose = event => {
