@@ -39,7 +39,7 @@ func registerClient(client *Client, pool *Pool) {
 	log.Printf("User Connected: %+v\n", client.ID)
 
 	for client := range pool.Clients {
-		err := client.Conn.WriteJSON(Message{Type: 1, StatusMessage: 0, Sender: client.ID, Body: ""})
+		err := client.Conn.WriteJSON(Message{Type: 1, StatusMessage: 1, Sender: client.ID, Body: ""})
 		if err != nil {
 			log.Println(err)
 			return
@@ -65,7 +65,7 @@ func unregisterClient(client *Client, pool *Pool) {
 	log.Printf("User Disconnected: %+v\n", client.ID)
 
 	for client := range pool.Clients {
-		err := client.Conn.WriteJSON(Message{Type: 1, StatusMessage: 2, Sender: client.ID, Body: ""})
+		err := client.Conn.WriteJSON(Message{Type: 1, StatusMessage: 3, Sender: client.ID, Body: ""})
 		if err != nil {
 			log.Println(err)
 			return

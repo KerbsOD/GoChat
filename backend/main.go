@@ -42,6 +42,6 @@ func serveWebSocket(pool *websocket.Pool, w http.ResponseWriter, r *http.Request
 		Pool: pool,
 	}
 
-	client.Register(pool)
+	client.Register(pool, conn)
 	client.Read()
 }

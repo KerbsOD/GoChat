@@ -2,6 +2,7 @@ package websocket
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 
 	"github.com/gorilla/websocket"
@@ -25,7 +26,32 @@ type FrontMessage struct {
 	Content  string `json:"content"`
 }
 
-func (c *Client) Register(pool *Pool) {
+func (c *Client) Register(pool *Pool, conn *websocket.Conn) {
+	log.Println("Sending username request")
+	err := c.Conn.WriteJSON(Message{Type: 1, StatusMessage: 0, Sender: c.ID, Body: ""})
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	_, p, err := c.Conn.ReadMessage()
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	fmt.Println(string(p))
+
+	var messageWithName FrontMessage
+	if err := json.Unmarshal(p, &messageWithName); err != nil {
+		log.Println("Error decoding JSON:", err)
+		return
+	}
+
+	username := messageWithName.Username
+
+	c.ID = username
+
 	pool.Register <- c
 }
 
@@ -42,16 +68,7 @@ func (c *Client) Read() {
 			return
 		}
 
-		var dataReciever FrontMessage
-		if err := json.Unmarshal(p, &dataReciever); err != nil {
-			log.Println("Error decoding JSON:", err)
-			continue
-		}
-
-		username := dataReciever.Username
-		content := dataReciever.Content
-
-		message := Message{Type: messageType, StatusMessage: 1, Sender: username, Body: content}
+		message := Message{Type: messageType, StatusMessage: 2, Sender: c.ID, Body: string(p)}
 		c.Pool.Broadcast <- message
 	}
 }
