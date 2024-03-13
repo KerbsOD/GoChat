@@ -2,15 +2,17 @@ import "./Message.scss";
 
 export default function Message ({message}) {
     let temp = JSON.parse(message);
-    const {statusmessage, sender, body,} = temp
+    const {type, statusmessage, sender, body} = temp
 
-    let postMessage = (<div><strong>{sender}</strong>: {body}</div>)
+    const {username, content} = body
 
-    if (statusmessage === 0) {
+    let postMessage = (<div><strong>{sender}</strong>: {body} </div>)
+
+    if (statusmessage === 1) {
         postMessage = (<div><strong>{sender} has joined the chat </strong></div>)
     }
 
-    if (statusmessage === 2) {
+    if (statusmessage === 3) {
         postMessage = (<div><strong>{sender} has left the chat </strong></div>)
     }
 

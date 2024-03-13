@@ -2,33 +2,84 @@ import React, { useState, useEffect } from 'react';
 import Header from './components/Header/Header';
 import ChatHistory from "./components/ChatHistory/ChatHistory";
 import ChatInput from "./components/ChatInput";
-import { connect, sendMsg } from "./api";
 
 export default function Chat({username}) {
     const [chatHistory, setChatHistory] = useState([]);
+    const [socket, setSocket] = useState(null);
 
     useEffect(() => {
         document.title = "GoChat";
-        var socket = new WebSocket("ws://localhost:8080/ws");
+
+        const socket = new WebSocket("ws://localhost:8080/ws");
+        
+        console.log("Attempting Connection...");
+
+        socket.onopen = () => {
+            console.log("Successfully Connected!");
+        };
+
+        socket.onmessage = event => {
+            let msg = event.data;
+
+            console.log('Message recieved: ', msg);
+
+            let temp = JSON.parse(msg);
+            const {type, statusmessage, sender, body} = temp
+
+            console.log("Debug")
+            console.log(temp)
+
+            if ( statusmessage === 0 ) {
+                const message = {
+                    username: username,
+                    content: "Username provided"
+                };
+            
+                sendMessage(message);
+            }
+
+            callback(event)
+        };
+
+        socket.onerror = error => {
+            console.log("Socket Error: ", error);
+        };
+
+        socket.onclose = event => {
+            console.log("Socket Closed Connection: ", event);
+        };
+
+        function sendMessage(message) {
+            console.log("Sending Message to backend: ", message);
+            socket.send(JSON.stringify(message))
+        };
+
+        setSocket({
+            socket,
+            sendMessage
+        });
 
         const callback = (msg) => {
             setChatHistory(prevChatHistory => [...prevChatHistory, msg]);
         };
 
-        connect(callback, username);
+        return() => {
+            socket.close()
+        };
+        
     }, []); 
 
     const send = (event) => {
         // Si la tecla es enter entonces usa la funcion sendMsg para enviar el valor
         if (event.keyCode === 13) { // enter
             const message = {
-                content: event.target.value,
                 username: username,
+                content: event.target.value,
             };
             
-            const messageString = JSON.stringify(message)
-            
-            sendMsg(messageString);
+            if (socket) {
+                socket.sendMessage(message)
+            }
             
             event.target.value = "";
         }
