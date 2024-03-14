@@ -1,0 +1,26 @@
+.ChatHistory {
+  background-color: #ffffff; 
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-bottom: 50px;
+  overflow-y: auto; /* Add scrollbar when content exceeds height */
+  max-height: calc(100vh - 120px); /* Set maximum height to fill the remaining viewport */
+}
+
+.ChatHistory ul {
+  list-style-type: none; 
+  margin: 0;
+  padding: 0;
+}
+
+.ChatHistory li {
+  margin-bottom: 10px; 
+}
+
+.ChatHistory h2 {
+  margin: 0;
+  padding: 0;
+}
+
+
+

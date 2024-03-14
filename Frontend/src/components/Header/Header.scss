@@ -1,0 +1,36 @@
+.Header {
+    background-color: #265d9c;
+    color: #ffffff;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    justify-content: center; /* Center content horizontally */
+    position: relative;
+}
+
+h1 {
+  margin: 0 auto; 
+}
+
+
+.backButton {
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    cursor: pointer;
+    left: 20px;
+    margin-right: 10px;
+    padding: 8px 12px;
+    border-radius: 5px;
+    background-color: #ffffff;
+}
+
+.backButton:hover {
+  background-color: #c9c9c9; /* Darken color on hover */
+}
+
+
+
+
+
+

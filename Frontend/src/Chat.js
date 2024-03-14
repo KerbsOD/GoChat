@@ -1,15 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import Header from './components/Header/Header';
-import ChatHistory from "./components/ChatHistory/ChatHistory";
+import { useNavigate } from 'react-router-dom'
+import ChatHistory from "./components/ChatHistory";
 import ChatInput from "./components/ChatInput";
+import Header from './components/Header';
 
 export default function Chat({username}) {
     const [chatHistory, setChatHistory] = useState([]);
     const [socket, setSocket] = useState(null);
-
+    const navigate = useNavigate()
+    
+    
     useEffect(() => {
         document.title = "GoChat";
 
+        if (username === '') {
+            navigate('/')
+            return
+        }
+    
         const socket = new WebSocket("ws://localhost:8080/ws");
         
         console.log("Attempting Connection...");
@@ -19,26 +27,16 @@ export default function Chat({username}) {
         };
 
         socket.onmessage = event => {
-            let msg = event.data;
-
-            console.log('Message recieved: ', msg);
-
-            let temp = JSON.parse(msg);
-            const {type, statusmessage, sender, body} = temp
-
-            console.log("Debug")
-            console.log(temp)
-
-            if ( statusmessage === 0 ) {
-                const message = {
-                    username: username,
-                    content: "Username provided"
-                };
+            let message = JSON.parse(event.data);
+            const {type, sender, body} = message
+            console.log('Message recieved: ', message);
             
-                sendMessage(message);
+            if ( type === 0 ) {
+                console.log("Username request received")
+                sendMessage(username);
+            } else {
+                setChatHistory(prevChatHistory => [...prevChatHistory, message]);
             }
-
-            callback(event)
         };
 
         socket.onerror = error => {
@@ -50,8 +48,13 @@ export default function Chat({username}) {
         };
 
         function sendMessage(message) {
-            console.log("Sending Message to backend: ", message);
-            socket.send(JSON.stringify(message))
+            const messageJSON = {
+                type: 2,
+                sender: username,
+                body: message,
+            };
+            console.log("Sending Message to backend: ", messageJSON);
+            socket.send(JSON.stringify(messageJSON))
         };
 
         setSocket({
@@ -59,28 +62,18 @@ export default function Chat({username}) {
             sendMessage
         });
 
-        const callback = (msg) => {
-            setChatHistory(prevChatHistory => [...prevChatHistory, msg]);
-        };
-
         return() => {
             socket.close()
+            console.log("Socket closed")
         };
         
     }, []); 
 
     const send = (event) => {
-        // Si la tecla es enter entonces usa la funcion sendMsg para enviar el valor
-        if (event.keyCode === 13) { // enter
-            const message = {
-                username: username,
-                content: event.target.value,
-            };
-            
+        if (event.key === 'Enter') { 
             if (socket) {
-                socket.sendMessage(message)
+                socket.sendMessage(event.target.value)
             }
-            
             event.target.value = "";
         }
     };
@@ -93,3 +86,4 @@ export default function Chat({username}) {
         </div>
     );
 };
+

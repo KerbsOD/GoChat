@@ -1,0 +1,48 @@
+.Message {
+  background-color: rgb(255, 255, 255);
+  padding: 10px 20px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  max-width: 70%;
+  margin-left: 20px;
+}
+
+.MessageContainer {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+
+.Message.me {
+  background-color: rgb(255, 0, 0);
+  color: #fff;
+}
+
+.Message p {
+  margin: 0;
+}
+
+.Message.me p {
+  text-align: right;
+}
+
+.Message img {
+  max-width: 100%;
+  border-radius: 10px;
+}
+
+.Message .meta {
+  font-size: 12px;
+  color: #666;
+  margin-top: 5px;
+}
+
+.message-body {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+}
+
+.body {
+  word-wrap: break-word;
+}

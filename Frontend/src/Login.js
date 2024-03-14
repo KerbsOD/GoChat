@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-export default function Home({username, setUsername}) {
+function Login({username, setUsername}) {
     const navigate = useNavigate()
 
     const onButtonClick = () => {
@@ -9,6 +9,12 @@ export default function Home({username, setUsername}) {
             return
         }
         navigate('/chat')
+    }
+
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            onButtonClick();
+        }
     }
 
     return (
@@ -22,6 +28,7 @@ export default function Home({username, setUsername}) {
                 <input
                     placeholder="Enter username"
                     onChange={(ev) => setUsername(ev.target.value)}
+                    onKeyDown={handleKeyDown}
                     className={'inputBox'}
                 />
             </div>
@@ -33,3 +40,5 @@ export default function Home({username, setUsername}) {
         </div>
     )
 }
+
+export default Login

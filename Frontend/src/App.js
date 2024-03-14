@@ -1,5 +1,7 @@
+import logo from './logo.svg';
+import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Home from './Home.js'
+import Login from './Login.js'
 import Chat from './Chat.js'
 import './App.css'
 import { useState } from 'react'
@@ -11,7 +13,7 @@ function App() {
         <div className="App">
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<Home username={username} setUsername={setUsername} />} />
+                    <Route path="/" element={<Login username={username} setUsername={setUsername} />} />
                     <Route path="/chat" element={<Chat username={username} />} />
                 </Routes>
             </BrowserRouter>
@@ -20,3 +22,4 @@ function App() {
 }
 
 export default App
+

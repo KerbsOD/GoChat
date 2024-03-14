@@ -1,0 +1,21 @@
+.ChatInput {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: rgb(255, 255, 255);
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+.ChatInput input {
+  padding: 10px;
+  margin: 0;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  width: 90%;
+  box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.1);
+  
+}
+
